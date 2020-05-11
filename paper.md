@@ -70,7 +70,7 @@ unit (a process, thread or remote CPU). Stretching this jargon even further, in 
 to the same optimization is called an *archipelago*. When solutions are also exchanged among *populations* living on
 the same *archipelago*, the quality of the overall optimization is often improved [@izzo:2012].
 This exchange of information among different solvers is referred to as *migrations* and the allowed migration routes 
-(i.e. what *island* is connected) as the *topology* of the *archipelago*.
+(affecting the overall process significantly [@rucinski:2010]) as the *topology* of the *archipelago*. 
 
 # Exploiting parallelism
 
@@ -83,6 +83,10 @@ This exchange of information among different solvers is referred to as *migratio
 # Some API examples
 
 # Acknowledgments
-We acknowledge the support of the Google Summer of Code initiative, the European Space Agency Summer of Code in Space and Luca Guj and Dow Corporation during different phases of the devlopment.
+We acknowledge the support of the Google Summer of Code initiative, the European Space Agency Summer
+of Code in Space and Dow Corporation during different phases of the development. 
+Many of our colleagues and friends have, in the years, supported the project contributing to evolve
+its code base and API to what we have today. We would like to mention, in particular, Luís Felismino Simões, 
+Marek Ruciński, Marcus Märtens and Krzysztof Nowak.
 
 # References

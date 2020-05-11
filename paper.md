@@ -44,7 +44,7 @@ $$
                      & \mathbf {c}_i(\mathbf x, s) \le 0
   \end{array}
 $$
-where $$\mathbf x \in \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}}\f$$ is called *decision vector* or
+where $$\mathbf x \in \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}}$$ is called *decision vector* or
 *chromosome*, and is made of $$n_{cx}$$ real numbers and $$n_{ix}$$ integers (all represented as doubles). The
 total problem dimension is then indicated with $$n_x = n_{cx} + n_{ix}$$. $$\mathbf{lb}, \mathbf{ub} \in
 \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}}$$ are the *box-bounds*, $$\mathbf f: \mathbb R^{n_{cx}} \times

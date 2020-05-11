@@ -48,8 +48,8 @@ where $\mathbf x \in \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}}$ is called *d
 *chromosome*, and is made of $n_{cx}$ real numbers and $n_{ix}$ integers (all represented as doubles). The
 total problem dimension is then indicated with $n_x = n_{cx} + n_{ix}$. $\mathbf{lb}, \mathbf{ub} \in
 \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}}$ are the *box-bounds*, $\mathbf f: \mathbb R^{n_{cx}} \times
-\mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{obj}}$ define the *objectives*, $$\mathbf c_e:  \mathbb R^{n_{cx}}
-\times  \mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{ec}}$$ are non linear *equality constraints*, and $$ \mathbf
+\mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{obj}}$ define the *objectives*, $\mathbf c_e:  \mathbb R^{n_{cx}}
+\times  \mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{ec}}$ are non linear *equality constraints*, and $$ \mathbf
 c_i:  \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{ic}}$$ are non linear *inequality
 constraints*. Note that the objectives and constraints may also depend from an added value $$s$$ seeding the
 values of any number of stochastic variables. This allows also for stochastic programming tasks to be represented by

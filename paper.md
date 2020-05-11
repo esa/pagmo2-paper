@@ -62,21 +62,25 @@ The discussion on the relation between artificial evolution and mathematical opt
 interesting one [@smith:1978]. In `pagmo` optimization, 
 of all types, is regarded as a form of evolution. Solving an optimization problem
 is, in `pagmo`, described as *evolving* a *population*. 
-Regardless on whether the user is using, as a solver, a SQP, an interior point optimizer an evolutionary
-strategy or some meta-heuristic, in `pagmo` he will always have to call a method called
+Regardless on whether the user is using, as a solver, a sequential quadratic programming approach, 
+an interior point optimizer an evolutionary strategy or some meta-heuristic, in `pagmo` he will always have to call a method called
 *evolve* to improve over the initial solutions stored in a *population*. A *population*
 may or may not live in an *island*. When it does, its *evolution* is delegated to a different computational
 unit (a process, thread or remote CPU). Stretching this jargon even further, in `pagmo` a set of *islands* concurring
 to the same optimization is called an *archipelago*. When solutions are also exchanged among *populations* living on
 the same *archipelago*, the quality of the overall optimization is often improved [@izzo:2012].
 This exchange of information among different solvers is referred to as *migrations* and the allowed migration routes 
-(i.e. what *island* is in connected) as the *topology* of the *archipelago*.
+(i.e. what *island* is connected) as the *topology* of the *archipelago*.
 
 # Exploiting parallelism
 
 ## Island Model
 
 ## Cuncurrent fitness evaluations
+
+# Code Design
+
+# Some API examples
 
 # Acknowledgments
 We acknowledge the support of the Google Summer of Code initiative, the European Space Agency Summer of Code in Space and Luca Guj and Dow Corporation during different phases of the devlopment.

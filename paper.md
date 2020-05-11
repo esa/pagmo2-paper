@@ -33,6 +33,10 @@ Efficient implementantions of bio-inspired and evolutionary algorithms are sided
 
 For users that are more comfortable with the Python language, the package `pygmo` following as closely as possible the `pagmo` API is also available.
 
+# Methods 
+
+In `pagmo` optimization problems are considered to be in the form:
+
 $$
 \begin{array}{rl}
 \mbox{find:} & \mathbf x \in R^n \times N^m \\
@@ -42,8 +46,8 @@ $$
       & \mathbf c_{in}(\mathbf x) \le \mathbf 0
 \end{array}
 $$
+where 
 
-# Methods 
 
 # Acknowledgments
 We acknowledge the support of the Google Summer of Code initiative, the European Space Agency Summer of Code in Space and Luca Guj and Dow Corporation during different phases of the devlopment.

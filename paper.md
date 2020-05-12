@@ -36,7 +36,7 @@ In this paper we introduce `pagmo`, a C++ scientific library for massively paral
 
 Efficient implementantions of bio-inspired and evolutionary algorithms are sided to state-of-the-art optimization algorithms (Simplex Methods, SQP methods, interior points methods, etc.) and can be used cuncurrently (also together with algorithms coded by the user) to build an optimization pipeline exploiting algorithmic cooperation via the asynchronous, generalized island model [@izzo:2012]
 
-`pagmo` can be used to solve constrained, unconstrained, single objective, multiple objective, continuous and integer optimization problems, stochastic and deterministic problems, as well as to perform research on novel algorithms and paradigms and easily compare them to state-of-the-art implementations of established ones.
+`pagmo` can be used to solve constrained, unconstrained, single objective, multiple objectives, continuous and integer optimization problems, stochastic and deterministic problems, as well as to perform research on novel algorithms and paradigms and easily compare them to state-of-the-art implementations of established ones.
 
 For users that are more comfortable with the Python language, the package `pygmo` following as closely as possible the `pagmo` API is also available.
 
@@ -90,13 +90,23 @@ According to the type of optimization task, and in particular to the computation
 problem *fitness* function, a different granularity of the parallelization option may be ideal. 
 
 ## Island Model
-As a coarse-grained parallelism, `pagmo` offers an implmenetation of the so-called generalized island model [@izzo:2012].
-The original ideas on distributing genetic algorithms over multiple CPUs were developed in the early 90s by Reiko Tanese, one of John Holland's students [@tanese:1989]. The idea that migrations could improve the quality of the solutions obtained for some optimization task as well as offer a quasi-linear speedup was, though, confined mainly to genetic type of algorithms and called island model to explicitly 
-
+As a coarse-grained parallelism, `pagmo` offers an implementation of the so-called generalized
+island model [@izzo:2012]. Early ideas on distributing genetic algorithms over multiple CPUs were
+developed in the early 90s by Reiko Tanese, one of John Holland's students [@tanese:1989]. The idea
+that migrations could improve the quality of the solutions obtained for some optimization task
+as well as offer a quasi-linear speedup was, though, confined mainly to genetic algorithms and called
+island model. In `pagmo` any solver, inspired by the darwinian evolution paradigm, by swarm intelligence, 
+by any meta-heuristics or based on mathematical optimality conditions is allowed to exchange
+information during an *evolution* with other solvers connected to it via defined *migration* paths.
 
 ## Cuncurrent fitness evaluations
+In some situations it is preferable to parallelize at a finer grain the *evolution* pipeline. In 
+these situation a batch fitness..... 
+
 
 # Code Design
+Here we should mention the challenges of doing this for C++ and Python,
+the choices made for type erasure, tbb, threads etc....
 
 # Some API examples
 

@@ -100,15 +100,55 @@ by any meta-heuristics or based on mathematical optimality conditions is allowed
 information during an *evolution* with other solvers connected to it via defined *migration* paths.
 
 ## Cuncurrent fitness evaluations
-In some situations it is preferable to parallelize at a finer grain the *evolution* pipeline. In 
-these situation a batch fitness..... 
+In some situations it is preferable to parallelize at a finer grain the *evolution* pipeline
+(e.g., if the objective function evaluation is extremely costly). For this purpose, `pagmo`
+provides a *batch fitness evaluation* framework which can be used by selected algorithms to
+perform in parallel the objective function evaluation of multiple independent decision vectors.
+The parallel evaluation can be performed by multiple threads, processes or even by GPU devices
+(via, e.g., OpenCL or CUDA). As a caveat, whereas the island model can be employed with any solver,
+the *batch fitness evaluation* framework must be explicitly supported by the optimisation algorithm
+in use.
 
 
 # Code Design
-Here we should mention the challenges of doing this for C++ and Python,
-the choices made for type erasure, tbb, threads etc....
+
+## C++
+`pagmo` is written in standard-compliant C++17, and it extensively employs modern programming techniques.
+*Type erasure* is used pervasively throughout the codebase to provide a form of runtime
+polymorphism which is safer and more ergonomic than traditional object-oriented programming.
+Template meta-programming techniques
+are used for compile-time introspection, and, with the
+help of sensible defaults, they allow to minimise the amount of boilerplate
+needed to define new optimisation problems.
+`pagmo` is designed for extensive customisation: any element of the framework
+(including solvers, islands, batch fitness evaluators, archipelago topologies, migration policies, etc.)
+can easily be replaced with custom implementations tailored for specific needs.
+
+## Python
+In order to enable interactive computing, `pagmo`
+provides a complete set of Python bindings called `pygmo`, implemented via
+`pybind11` [@pybind11]. `pygmo` exposes all `pagmo` features, including the ability
+to implement new problems, solvers, batch evaluators, topologies etc. in pure Python,
+using an API which closely matches the C++ `pagmo` API. Additionally, `pygmo` offers
+Python-specific features, such as the ability to use `ipyparallel` [@ipyparallel]
+for cluster-level parallelisation, and wrappers to use minimisers from `Scipy` [@2020SciPy-NMeth]
+as `pygmo` algorithms.
+
+## Testing and documentation
+The `pagmo` development team places a strong emphasis on automated testing. The code is fully covered
+by unit tests, and the continuous integration pipeline checks that the code compiles and runs correctly
+on a variety of operating systems (Linux, OSX, Windows) using different compilers (GCC, Clang, MSVC).
+Both the C++ and Python APIs are fully documented, and as a policy we require that every PR to `pagmo`
+or `pygmo` must not decrease testing or documentation coverage.
 
 # Some API examples
+
+# Availability
+Both `pagmo` and `pygmo` are available in the `conda` package manager through the `conda-forge`
+community-driven channel. Additionally, the core team also maintains `pip` packages for Linux.
+
+The wider `pagmo` user community provides also additional packages for Arch Linux, OSX (via Homebrew)
+and FreeBSD.
 
 # Acknowledgments
 We acknowledge the support of the Google Summer of Code initiative, the European Space Agency Summer

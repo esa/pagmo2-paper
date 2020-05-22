@@ -125,7 +125,9 @@ needed to define new optimisation problems.
 can easily be replaced with custom implementations tailored for specific needs.
 
 ## Python
-In order to enable interactive computing, `pagmo`
+In order to provide an interactive mode of usage (and in order to
+participate in the ecosystem of what is arguably the most popular
+language for scientific computing today), `pagmo`
 provides a complete set of Python bindings called `pygmo`, implemented via
 `pybind11` [@pybind11]. `pygmo` exposes all `pagmo` features, including the ability
 to implement new problems, solvers, batch evaluators, topologies etc. in pure Python,

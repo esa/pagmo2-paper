@@ -199,7 +199,8 @@ int main()
 
   // Print to screen the fitness of the
   // best solution in the new population.
-  std::cout << "Fitness of the best solution: " << new_pop.champion_f()[0] << '\n';
+  std::cout << "Fitness of the best solution: "
+            << new_pop.champion_f()[0] << '\n';
 }
 ```
 

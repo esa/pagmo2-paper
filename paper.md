@@ -144,6 +144,113 @@ Both the C++ and Python APIs are fully documented, and as a policy we require th
 or `pygmo` must not decrease testing or documentation coverage.
 
 # Some API examples
+In this section, we will show how `pagmo` and `pygmo` can be used
+to solve a very simple optimisation problem using the Differential
+Evolution (DE) algorithm. The problem that we will solve is the
+minimisation of the unidimensional sphere function,
+$$
+f\left( x \right) = x^2,
+$$
+subject to the box bounds $x \in \left[0, 1 \right]$. This is,
+of course, a trivial problem with solution $x=0$, and it is
+used here only for didactic purposes.
+
+## C++
+```c++
+#include <iostream>
+#include <utility>
+
+#include <pagmo/algorithm.hpp>
+#include <pagmo/algorithms/de.hpp>
+#include <pagmo/population.hpp>
+#include <pagmo/problem.hpp>
+#include <pagmo/types.hpp>
+
+using namespace pagmo;
+
+// Definition of the optimisation problem.
+struct sphere_1d
+{
+  // Definition of the box bounds.
+  std::pair<vector_double, vector_double> get_bounds() const
+  {
+    return {{0.}, {1.}};
+  }
+  // Definition of the objective function.
+  vector_double fitness(const vector_double &dv) const
+  {
+    return {dv[0] * dv[0]};
+  }
+};
+
+int main()
+{
+  // Create a random population of 20 initial
+  // guesses for the sphere_1d problem.
+  population pop{sphere_1d{}, 20};
+
+  // Create the optimisation algorithm.
+  // We will use 500 generations.
+  algorithm algo{de{500}};
+
+  // Run the optimisation, which will
+  // produce a new "evolved" population.
+  auto new_pop = algo.evolve(pop);
+
+  // Print to screen the fitness of the
+  // best solution in the new population.
+  std::cout << "Fitness of the best solution: " << new_pop.champion_f()[0] << '\n';
+}
+```
+
+In ``pagmo``, decision vectors and problem bounds are represented by ``vector_double``,
+which is currently just an alias for ``std::vector<double>``. The fitness function also returns
+a ``vector_double``, because, generally-speaking, the fitness vector must accommodate
+multiple scalar values to represent multiple objectives and constraints. Here, however,
+the ``sphere_1d`` problem is single-objective and unconstrained, and thus
+the only element in the fitness vector will be the value of the objective function.
+
+In this example, 20 initial conditions for the optimisation are randomly chosen within the
+problem bounds when creating the ``pop`` object. It is of course possible to set explicitly
+the initial conditions, if so desired. The Differential Evolution algorithm is then created,
+specifying that the evolution will run for 500 generations (i.e., this is a stopping
+criterion for the Differential Evolution algorithm).
+
+The initial population ``pop`` is then evolved, and the result is a new population of
+optimised decision vectors. The fitness of the best decision vector (the "champion")
+is then printed to screen.
+
+## Python
+```python
+from pygmo import problem, algorithm, population, de
+
+# Definition of the optimisation problem.
+class sphere_1d:
+  # Definition of the box bounds.
+  def get_bounds(self):
+    return ([0], [1])
+  # Definition of the objective function.
+  def fitness(self, dv):
+    return [dv[0]**2]
+
+# Create a random population of 20 initial
+# guesses for the sphere_1d problem.
+pop = population(sphere_1d(), 20)
+
+# Create the optimisation algorithm.
+# We will use 500 generations.
+algo = algorithm(de(500))
+
+# Run the optimisation, which will
+# produce a new "evolved" population.
+new_pop = algo.evolve(pop)
+
+# Print to screen the fitness of the
+# best solution in the new population.
+print(new_pop.champion_f)
+```
+
+As shown in this example, the ``pygmo`` Python API very closely follows the ``pagmo`` C++ API.
 
 # Availability
 Both `pagmo` and `pygmo` are available in the `conda` package manager through the `conda-forge`

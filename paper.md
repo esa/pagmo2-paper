@@ -266,7 +266,7 @@ As shown in this example, the ``pygmo`` Python API very closely follows the ``pa
 * in addition to generic Python iterables (list, tuples, etc.), NumPy arrays [@walt2011numpy] can be used as
   data types to represent decision vectors, constraints, gradients, Hessians, etc.;
 * various optimisation analysis tools based on Matplotlib [@mplotlib] are provided;
-* archipelago topologies can be exported, imported and studied as NetworkX [@hagberg2008exploring] objects.
+* archipelago topologies can be exported, imported and studied as NetworkX graph objects [@hagberg2008exploring].
 
 # Availability
 Both `pagmo` and `pygmo` are available in the `conda` package manager through the `conda-forge`

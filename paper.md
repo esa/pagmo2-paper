@@ -104,10 +104,8 @@ In some situations it is preferable to parallelize at a finer grain the *evoluti
 (e.g., if the objective function evaluation is extremely costly). For this purpose, `pagmo`
 provides a *batch fitness evaluation* framework which can be used by selected algorithms to
 perform in parallel the objective function evaluation of multiple independent decision vectors.
-The parallel evaluation can be performed by multiple threads, processes or even by GPU devices
-(via, e.g., OpenCL or CUDA). As a caveat, whereas the island model can be employed with any solver,
-the *batch fitness evaluation* framework must be explicitly supported by the optimisation algorithm
-in use.
+The parallel evaluation can be performed by multiple threads, processes, nodes in an
+HPC cluster or even by GPU devices (via, e.g., OpenCL or CUDA).
 
 
 # Code Design
@@ -133,8 +131,8 @@ provides a complete set of Python bindings called `pygmo`, implemented via
 to implement new problems, solvers, batch evaluators, topologies etc. in pure Python,
 using an API which closely matches the C++ `pagmo` API. Additionally, `pygmo` offers
 Python-specific features, such as the ability to use `ipyparallel` [@ipyparallel]
-for cluster-level parallelisation, and wrappers to use minimisers from `Scipy` [@2020SciPy-NMeth]
-as `pygmo` algorithms.
+for cluster-level parallelisation, and wrappers to use optimisation algorithms
+from `Scipy` [@2020SciPy-NMeth] as `pygmo` algorithms.
 
 ## Testing and documentation
 The `pagmo` development team places a strong emphasis on automated testing. The code is fully covered
@@ -146,7 +144,7 @@ or `pygmo` must not decrease testing or documentation coverage.
 # Some API examples
 In this section, we will show how `pagmo` and `pygmo` can be used
 to solve a very simple optimisation problem using the Differential
-Evolution (DE) algorithm. The problem that we will solve is the
+Evolution (DE) algorithm [@storn1997differential]. The problem that we will solve is the
 minimisation of the unidimensional sphere function,
 $$
 f\left( x \right) = x^2,
@@ -204,8 +202,8 @@ int main()
 }
 ```
 
-In ``pagmo``, decision vectors and problem bounds are represented by ``vector_double``,
-which is currently just an alias for ``std::vector<double>``. The fitness function also returns
+In ``pagmo``, decision vectors and problem bounds are represented via the ``pagmo::vector_double``
+type, which is currently just an alias for ``std::vector<double>``. The fitness function also returns
 a ``vector_double``, because, generally-speaking, the fitness vector must accommodate
 multiple scalar values to represent multiple objectives and constraints. Here, however,
 the ``sphere_1d`` problem is single-objective and unconstrained, and thus
@@ -213,13 +211,24 @@ the only element in the fitness vector will be the value of the objective functi
 
 In this example, 20 initial conditions for the optimisation are randomly chosen within the
 problem bounds when creating the ``pop`` object. It is of course possible to set explicitly
-the initial conditions, if so desired. The Differential Evolution algorithm is then created,
-specifying that the evolution will run for 500 generations (i.e., this is a stopping
-criterion for the Differential Evolution algorithm).
+the initial conditions, if so desired. The Differential Evolution algorithm object is then created,
+specifying 500 generations as a stopping criterion.
 
 The initial population ``pop`` is then evolved, and the result is a new population of
-optimised decision vectors. The fitness of the best decision vector (the "champion")
+optimised decision vectors, ``new_pop``. The fitness of the best decision vector (the "champion")
 is then printed to screen.
+
+``sphere_1d``, as an unconstrained, single-objective, continuous optimisation problem, is the
+simplest optimisation problem type that can be defined in ``pagmo``. More complex problems can be
+defined by adding new member functions to the problem class. For instance:
+
+* by implementing the ``get_nec()`` and ``get_nic()`` member functions, the user can specify
+  the number of, respectively, equality and inequality constraints in the problem.
+  If, like in the case of ``sphere_1d``, these functions are not implemented, ``pagmo``
+  assumes that the problem is unconstrained;
+* by implementing the ``get_nobj()`` member function, the user can specify the
+  number of objectives in the optimisation problem. If this function is not implemented,
+  ``pagmo`` assumes that the problem is single-objective.
 
 ## Python
 ```python
@@ -239,7 +248,6 @@ class sphere_1d:
 pop = population(sphere_1d(), 20)
 
 # Create the optimisation algorithm.
-# We will use 500 generations.
 algo = algorithm(de(500))
 
 # Run the optimisation, which will
@@ -252,6 +260,13 @@ print(new_pop.champion_f)
 ```
 
 As shown in this example, the ``pygmo`` Python API very closely follows the ``pagmo`` C++ API.
+
+``pygmo`` seamlessly integrates with the wider scientific Python ecosystem. For instance:
+
+* in addition to generic Python iterables (list, tuples, etc.), NumPy arrays [@walt2011numpy] can be used as
+  data types to represent decision vectors, constraints, gradients, Hessians, etc.;
+* various optimisation analysis tools based on Matplotlib [@mplotlib] are provided;
+* archipelago topologies can be exported, imported and studied as NetworkX [@hagberg2008exploring] objects.
 
 # Availability
 Both `pagmo` and `pygmo` are available in the `conda` package manager through the `conda-forge`

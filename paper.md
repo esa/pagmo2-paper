@@ -105,14 +105,15 @@ In some situations it is preferable to parallelize at a finer grain the *evoluti
 provides a *batch fitness evaluation* framework which can be used by selected algorithms to
 perform in parallel the objective function evaluation of multiple independent decision vectors.
 The parallel evaluation can be performed by multiple threads, processes, nodes in an
-HPC cluster or even by GPU devices (via, e.g., OpenCL or CUDA).
+HPC cluster or even by GPU devices (via, e.g., OpenCL or CUDA). In this last case it up to the user to
+code a user-defined batch fitness evaluator.
 
 # Related projects / frameworks
 A large number of projects, open source as well as commercial, exist whose functionalities overlap, at least partially, with those of `pagmo`. On the one hand, projects such as jMetal [@durillo:2011], DEAP [@fortin:2012], ParadisEO [@cahon:2004] and others originate from the metaheuristic community and, essentially, offer implementations of a number of derivative-free solvers suitable for multi-objective and
 single-objective problems, some with (fine-grained) parallelization capabilities. On the other hand, projects like AMPL [@fourer:2003]
 or GAMS originate from the operational research community and offer modelling languages able to represent generic optimization 
 problems and to forward them, together with the jacobians and hessians needed, to compatible solvers. 
-A third type of projects, like NLOpt [@johnson:2014] or the Scipy optimize module offer a number of solvers without making much distinction between heuristic, derivative-free or local deterministic solvers. The project `pagmo`, has most of the capabilities of the above mentioned software integrated in the same ecosystem as it offers a large variety of parallelization options and, above all, the possibility to code and wrap easily new (or third party) solvers, problems and parallelization strategies. 
+A third type of projects, like NLOpt [@johnson:2014] or the Scipy optimize module offer a number of solvers without making much distinction between heuristic, derivative-free or local deterministic solvers. The project `pagmo`, has most of the capabilities of the above mentioned software integrated in the same ecosystem as it offers a large variety of parallelization modes and, above all, the possibility to code and wrap easily new (or third party) solvers, problems and parallelization strategies. A unique characteristic of `pagmo` to be here highlighted, is the presence of an island model implementation [@izzo:2012] that can flexibly distribute any solver, original, user implemented or third party wrapped on CPU clusters. 
 
 # Code Design
 

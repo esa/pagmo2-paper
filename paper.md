@@ -32,11 +32,15 @@ Given the vast amount and diversity of optimization problems, as well as of solu
 and considering the need to be able to exploit modern computational architectures, the development of 
 a tool able to help in such a pervasive task is not trivial.
 
-In this paper we introduce `pagmo`, a C++ scientific library for massively parallel optimization. `pagmo` is built around the idea of providing a unified interface to optimization algorithms and problems, and to make their deployment in massively parallel environments easy.
+In this paper we introduce `pagmo`, a C++ scientific library for massively parallel optimization. `pagmo` is built around the idea of providing
+a unified interface to optimization algorithms and problems, and to make their deployment in massively parallel environments easy.
 
-Efficient implementantions of bio-inspired and evolutionary algorithms are sided to state-of-the-art optimization algorithms (Simplex Methods, SQP methods, interior points methods, etc.) and can be used cuncurrently (also together with algorithms coded by the user) to build an optimization pipeline exploiting algorithmic cooperation via the asynchronous, generalized island model [@izzo:2012]
+Efficient implementantions of bio-inspired and evolutionary algorithms are sided to state-of-the-art optimization algorithms
+(Simplex Methods, SQP methods, interior points methods, etc.) and can be used concurrently (also together with algorithms coded by the user)
+to build an optimization pipeline exploiting algorithmic cooperation via the asynchronous, generalized island model [@izzo:2012].
 
-`pagmo` can be used to solve constrained, unconstrained, single objective, multiple objectives, continuous and integer optimization problems, stochastic and deterministic problems, as well as to perform research on novel algorithms and paradigms and easily compare them to state-of-the-art implementations of established ones.
+`pagmo` can be used to solve constrained, unconstrained, single objective, multiple objectives, continuous and integer optimization problems,
+stochastic and deterministic problems, as well as to perform research on novel algorithms and paradigms and easily compare them to state-of-the-art implementations of established ones.
 
 For users that are more comfortable with the Python language, the package `pygmo` following as closely as possible the `pagmo` API is also available.
 
@@ -56,8 +60,8 @@ where $\mathbf x \in \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}}$ is called *d
 total problem dimension is then indicated with $n_x = n_{cx} + n_{ix}$. $\mathbf{lb}, \mathbf{ub} \in
 \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}}$ are the *box-bounds*, $\mathbf f: \mathbb R^{n_{cx}} \times
 \mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{obj}}$ define the *objectives*, $\mathbf c_e:  \mathbb R^{n_{cx}}
-\times  \mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{ec}}$ are non linear *equality constraints*, and $\mathbf
-c_i:  \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{ic}}$ are non linear *inequality
+\times  \mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{ec}}$ are nonlinear *equality constraints*, and $\mathbf
+c_i:  \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{ic}}$ are nonlinear *inequality
 constraints*. Note that the objectives and constraints also depend from an added value $s$ representing some
 stochastic variable. Both equality and inequality constraints are considered as satisfied whenever their definition
 is met within a tolerance $\mathbf c_{tol}$. 
@@ -66,7 +70,7 @@ Note that there is no special treatment of a possible linear part of the *object
 have no additional help to approach linear programming tasks.
 
 Given the generic form used to represent a problem, `pagmo` is suitable to solve a broad range of optimization problems,
-ranging from single and multiobjective problems to box-bounded and non linearly constrained problems to stochastic problems to continuous, integer and mixed integer problems.
+ranging from single and multiobjective problems to box-bounded and nonlinearly constrained problems to stochastic problems to continuous, integer and mixed integer problems.
 
 # The pagmo jargon
 The discussion on the relation between artificial evolution and mathematical optimization is an
@@ -99,7 +103,7 @@ island model. In `pagmo` any solver, inspired by the darwinian evolution paradig
 by any meta-heuristics or based on mathematical optimality conditions is allowed to exchange
 information during an *evolution* with other solvers connected to it via defined *migration* paths.
 
-## Cuncurrent fitness evaluations
+## Concurrent fitness evaluations
 In some situations it is preferable to parallelize at a finer grain the *evolution* pipeline
 (e.g., if the objective function evaluation is extremely costly). For this purpose, `pagmo`
 provides a *batch fitness evaluation* framework which can be used by selected algorithms to
@@ -109,11 +113,18 @@ HPC cluster or even by GPU devices (via, e.g., OpenCL or CUDA). In this last cas
 code a user-defined batch fitness evaluator.
 
 # Related projects / frameworks
-A large number of projects, open source as well as commercial, exist whose functionalities overlap, at least partially, with those of `pagmo`. On the one hand, projects such as jMetal [@durillo:2011], DEAP [@fortin:2012], ParadisEO [@cahon:2004] and others originate from the metaheuristic community and, essentially, offer implementations of a number of derivative-free solvers suitable for multi-objective and
+A large number of projects, open source as well as commercial, exist whose functionalities overlap, at least partially, with those of `pagmo`.
+On the one hand, projects such as jMetal [@durillo:2011], DEAP [@fortin:2012], ParadisEO [@cahon:2004] and others originate from the metaheuristic
+community and, essentially, offer implementations of a number of derivative-free solvers suitable for multi-objective and
 single-objective problems, some with (fine-grained) parallelization capabilities. On the other hand, projects like AMPL [@fourer:2003]
 or GAMS originate from the operational research community and offer modelling languages able to represent generic optimization 
 problems and to forward them, together with the jacobians and hessians needed, to compatible solvers. 
-A third type of projects, like NLOpt [@johnson:2014] or the Scipy optimize module offer a number of solvers without making much distinction between heuristic, derivative-free or local deterministic solvers. The project `pagmo`, has most of the capabilities of the above mentioned softwares integrated in the same ecosystem as it offers a large variety of parallelization modes and, above all, the possibility to code and wrap easily new (or third party) solvers, problems and parallelization strategies. A unique characteristic of `pagmo` to be here highlighted, is the presence of an island model implementation [@izzo:2012] that can flexibly distribute any solver, original, user implemented or third party on multiple CPU. 
+A third type of projects, like NLOpt [@johnson:2014] or the `Scipy` [@2020SciPy-NMeth]
+optimize module offer a number of solvers without making much distinction between heuristic, derivative-free or local deterministic solvers.
+The project `pagmo`, has most of the capabilities of the above mentioned softwares integrated in the same ecosystem as it offers a large variety of
+parallelization modes and, above all, the possibility to code and wrap easily new (or third party) solvers, problems and parallelization strategies.
+A unique characteristic of `pagmo` to be here highlighted, is the presence of an island model implementation [@izzo:2012] that can flexibly distribute any solver,
+original, user implemented or third party on multiple CPUs.
 
 # Code Design
 

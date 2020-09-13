@@ -42,7 +42,8 @@ to build an optimization pipeline exploiting algorithmic cooperation via the asy
 `pagmo` can be used to solve constrained, unconstrained, single objective, multiple objectives, continuous and integer optimization problems,
 stochastic and deterministic problems, as well as to perform research on novel algorithms and paradigms and easily compare them to state-of-the-art implementations of established ones.
 
-For users that are more comfortable with the Python language, the package `pygmo` following as closely as possible the `pagmo` API is also available.
+For users that are more comfortable with the Python language, the package `pygmo` provides a complete set of Python bindings for `pagmo` closely following
+the C++ API.
 
 # The optimization problem 
 In `pagmo` optimization problems are considered to be in the form:
@@ -55,19 +56,19 @@ $$
                      & \mathbf {c}_i(\mathbf x, s) \le 0
   \end{array}
 $$
-where $\mathbf x \in \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}}$ is called *decision vector* or
+where $\mathbf x \in \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}}$ is called a *decision vector* or
 *chromosome*, and is made of $n_{cx}$ real numbers and $n_{ix}$ integers (all represented as doubles). The
 total problem dimension is then indicated with $n_x = n_{cx} + n_{ix}$. $\mathbf{lb}, \mathbf{ub} \in
 \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}}$ are the *box-bounds*, $\mathbf f: \mathbb R^{n_{cx}} \times
 \mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{obj}}$ define the *objectives*, $\mathbf c_e:  \mathbb R^{n_{cx}}
 \times  \mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{ec}}$ are nonlinear *equality constraints*, and $\mathbf
 c_i:  \mathbb R^{n_{cx}} \times  \mathbb Z^{n_{ix}} \rightarrow \mathbb R^{n_{ic}}$ are nonlinear *inequality
-constraints*. Note that the objectives and constraints also depend from an added value $s$ representing some
+constraints*. Note that the objectives and constraints also depend on an added value $s$ representing some
 stochastic variable. Both equality and inequality constraints are considered as satisfied whenever their definition
 is met within a tolerance $\mathbf c_{tol}$. 
 
 Note that there is no special treatment of a possible linear part of the *objectives* or *constraints*, and as such solvers in `pagmo`
-have no additional help to approach linear programming tasks.
+cannot take advantage of the special structure of linear programming tasks.
 
 Given the generic form used to represent a problem, `pagmo` is suitable to solve a broad range of optimization problems,
 ranging from single and multiobjective problems to box-bounded and nonlinearly constrained problems to stochastic problems to continuous, integer and mixed integer problems.
@@ -77,13 +78,13 @@ The discussion on the relation between artificial evolution and mathematical opt
 interesting one [@smith:1978]. In `pagmo` optimization, 
 of all types, is regarded as a form of evolution. Solving an optimization problem
 is, in `pagmo`, described as *evolving* a *population*. Each *decision vector* is thus referred to also
-as *chromosome* and its *fitness* is defined as a vector containing *objectives*, *equality constraints* and *inequality
-constraints* in this order. Regardless on whether the user is using, as a solver, a sequential quadratic programming approach, 
-an interior point optimizer an evolutionary strategy or some meta-heuristic, in `pagmo` he will always have to call a method called
+as a *chromosome* and its *fitness* is defined as a vector containing *objectives*, *equality constraints* and *inequality
+constraints* in this order. Regardless of whether the user is using, as a solver, a sequential quadratic programming approach,
+an interior point optimizer, an evolutionary strategy or some meta-heuristic, in `pagmo` the user will always have to call a method called
 *evolve* to improve over the initial solutions stored in a *population*. A *population*
 may or may not live in an *island*. When it does, its *evolution* is delegated to a different computational
-unit (a process, thread or remote CPU). Stretching this jargon even further, in `pagmo` a set of *islands* concurring
-to the same optimization is called an *archipelago*. When solutions are also exchanged among *populations* living on
+unit (a process, thread or remote CPU). Stretching this jargon even further, in `pagmo` a set of *islands* optimizing
+the same problem is called an *archipelago*. When solutions are also exchanged among *populations* living on
 the same *archipelago*, the quality of the overall optimization is often improved [@izzo:2012].
 This exchange of information among different solvers is referred to as *migrations* and the allowed migration routes 
 (affecting the overall process significantly [@rucinski:2010]) as the *topology* of the *archipelago*. 
@@ -99,17 +100,17 @@ island model [@izzo:2012]. Early ideas on distributing genetic algorithms over m
 developed in the early 90s by Reiko Tanese, one of John Holland's students [@tanese:1989]. The idea
 that migrations could improve the quality of the solutions obtained for some optimization task
 as well as offer a quasi-linear speedup was, though, confined mainly to genetic algorithms and called
-island model. In `pagmo` any solver, inspired by the darwinian evolution paradigm, by swarm intelligence, 
+island model. In `pagmo` any solver, inspired by the Darwinian evolution paradigm, by swarm intelligence,
 by any meta-heuristics or based on mathematical optimality conditions is allowed to exchange
 information during an *evolution* with other solvers connected to it via defined *migration* paths.
 
 ## Concurrent fitness evaluations
-In some situations it is preferable to parallelize at a finer grain the *evolution* pipeline
+In some situations it is preferable to parallelize the *evolution* pipeline at a finer grain
 (e.g., if the objective function evaluation is extremely costly). For this purpose, `pagmo`
 provides a *batch fitness evaluation* framework which can be used by selected algorithms to
 perform in parallel the objective function evaluation of multiple independent decision vectors.
 The parallel evaluation can be performed by multiple threads, processes, nodes in an
-HPC cluster or even by GPU devices (via, e.g., OpenCL or CUDA). In this last case it up to the user to
+HPC cluster or even by GPU devices (via, e.g., OpenCL or CUDA). In this last case it is up to the user to
 code a user-defined batch fitness evaluator.
 
 # Related projects / frameworks
@@ -121,10 +122,10 @@ or GAMS originate from the operational research community and offer modelling la
 problems and to forward them, together with the jacobians and hessians needed, to compatible solvers. 
 A third type of projects, like NLOpt [@johnson:2014] or the `Scipy` [@2020SciPy-NMeth]
 optimize module offer a number of solvers without making much distinction between heuristic, derivative-free or local deterministic solvers.
-The project `pagmo`, has most of the capabilities of the above mentioned softwares integrated in the same ecosystem as it offers a large variety of
-parallelization modes and, above all, the possibility to code and wrap easily new (or third party) solvers, problems and parallelization strategies.
-A unique characteristic of `pagmo` to be here highlighted, is the presence of an island model implementation [@izzo:2012] that can flexibly distribute any solver,
-original, user implemented or third party on multiple CPUs.
+The project `pagmo` has most of the capabilities of the above mentioned software packages integrated in the same ecosystem as it offers a large variety of
+parallelization modes and, above all, the possibility to code and easily wrap new (or third party) solvers, problems and parallelization strategies.
+A unique characteristic of `pagmo` to be highlighted here, is the presence of an island model implementation [@izzo:2012] that can flexibly distribute any solver,
+original, user-implemented or third-party on multiple CPUs.
 
 # Code Design
 
@@ -133,8 +134,8 @@ original, user implemented or third party on multiple CPUs.
 *Type erasure* is used pervasively throughout the codebase to provide a form of runtime
 polymorphism which is safer and more ergonomic than traditional object-oriented programming.
 Template meta-programming techniques
-are used for compile-time introspection, and, with the
-help of sensible defaults, they allow to minimise the amount of boilerplate
+are used for compile-time introspection, and, paired
+to sensible defaults, they help to reduce the amount of boilerplate
 needed to define new optimisation problems.
 `pagmo` is designed for extensive customisation: any element of the framework
 (including solvers, islands, batch fitness evaluators, archipelago topologies, migration policies, etc.)
@@ -228,13 +229,13 @@ the ``sphere_1d`` problem is single-objective and unconstrained, and thus
 the only element in the fitness vector will be the value of the objective function.
 
 In this example, 20 initial conditions for the optimisation are randomly chosen within the
-problem bounds when creating the ``pop`` object. It is of course possible to set explicitly
+problem bounds when creating the ``pop`` object. It is of course possible to explicitly set
 the initial conditions, if so desired. The Differential Evolution algorithm object is then created,
 specifying 500 generations as a stopping criterion.
 
 The initial population ``pop`` is then evolved, and the result is a new population of
 optimised decision vectors, ``new_pop``. The fitness of the best decision vector (the "champion")
-is then printed to screen.
+is then printed to the screen.
 
 ``sphere_1d``, as an unconstrained, single-objective, continuous optimisation problem, is the
 simplest optimisation problem type that can be defined in ``pagmo``. More complex problems can be
